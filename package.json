@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node-dev --inspect=8181 --respawn --transpileOnly src/index.ts",
     "lint": "eslint --fix ./src/*",
-    "test": "jest"
+    "test": "jest",
+    "deploy": "tsc --project tsconfig.json"
   },
   "keywords": [],
   "author": "",
