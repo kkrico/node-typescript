@@ -1,6 +1,6 @@
 import { helloTest } from '../src/hello';
 
-describe('First test', () => {
+describe('Hello Test', () => {
     it('should return true', () => {
         expect(helloTest()).toBe(true);
     });
