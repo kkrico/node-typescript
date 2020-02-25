@@ -4,7 +4,7 @@ import * as express from 'express';
 const PORT = process.env.PORT ?? 8080;
 const app = express();
 
-const helloWorld = (req: express.Request, res: express.Response) => {
+export const helloWorld = (req: express.Request, res: express.Response) => {
     res.json({
         message: 'Mensagem de exemplo',
     });
