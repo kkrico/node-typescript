@@ -4,13 +4,13 @@ import * as express from 'express';
 const PORT = process.env.PORT ?? 8080;
 const app = express();
 
-const HelloWorld = (req: express.Request, res: express.Response) => {
+const helloWorld = (req: express.Request, res: express.Response) => {
     res.json({
-        message: 'Hello World',
+        message: 'Mensagem de exemplo',
     });
 };
 
-app.use('/api/v1', express.Router().get('/hello-world', HelloWorld));
+app.use('/api/v1', express.Router().get('/hello-world', helloWorld));
 
 // Iniciamos o nosso servidor web
 app.listen(PORT, () => {
