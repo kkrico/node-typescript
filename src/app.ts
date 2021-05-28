@@ -1,5 +1,4 @@
 // src/app.ts
-import bodyParser from "body-parser";
 import { RegisterRoutes } from "../build/routes";
 import express, {
   Response as ExResponse,
@@ -13,11 +12,11 @@ export const app = express();
 
 // Use body parser to read sent json payloads
 app.use(
-  bodyParser.urlencoded({
+  express.urlencoded({
     extended: true,
   })
 );
-app.use(bodyParser.json());
+app.use(express.json());
 
 app.use("/docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
   return res.send(
