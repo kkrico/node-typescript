@@ -1,16 +1,18 @@
 {
     "version": "0.2.0",
     "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Inicia API como Debug",
-            "preLaunchTask": "tsc: build - tsconfig.json",
-            "program": "${workspaceFolder}/src/index.ts",
-            "outFiles": [
-                "${workspaceFolder}/dist/**/*.js"
-            ]
-        },
+        {  
+            "name":"Iniciar em debug",
+            "type":"node",
+            "request":"launch",
+            "protocol":"inspector",
+            "cwd":"${workspaceRoot}",
+            "runtimeExecutable":"${workspaceRoot}/node_modules/.bin/ts-node-dev",
+            "args":[
+               "${workspaceRoot}/src/index.ts"
+            ],
+            "restart":true
+         },
         {
             "type": "node",
             "request": "launch",

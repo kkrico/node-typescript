@@ -1,1 +1,1 @@
-export const helloTest = (): boolean => true;
+export const condicaoMagica = () => true;

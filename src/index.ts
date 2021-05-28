@@ -1,13 +1,13 @@
 /* eslint-env node, mocha */
 import * as express from 'express';
-import { helloTest } from './hello';
+import { condicaoMagica } from './hello';
 
 const PORT = process.env.PORT ?? 8080;
 const app = express();
 
 export const helloWorld = (req: express.Request, res: express.Response) => {
     res.json({
-        message: helloTest() ? 'Mensagem de exemplo' : 'Testee',
+        message: condicaoMagica() ? 'Mensagem de exemplo' : 'Testee',
     });
 };
 
