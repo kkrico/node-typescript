@@ -1,17 +1,13 @@
-/* eslint-env node, mocha */
 import * as express from 'express';
-import { condicaoMagica } from './hello';
+import HelloWorldController from '@/controllers/HelloController';
 
 const PORT = process.env.PORT ?? 8080;
 const app = express();
 
-export const helloWorld = (req: express.Request, res: express.Response) => {
-    res.json({
-        message: condicaoMagica() ? 'Mensagem de exemplo' : 'Testee',
-    });
-};
-
-app.use('/api/v1', express.Router().get('/hello-world', helloWorld));
+app.use(
+    '/api/v1',
+    express.Router().get('/hello-world', (_req, res) => new HelloWorldController(res).hello()),
+);
 
 // Iniciamos o nosso servidor web
 app.listen(PORT, () => {
