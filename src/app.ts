@@ -40,20 +40,20 @@ app.use(function notFoundHandler(_req, res: ExResponse) {
 
 app.use(function errorHandler(
   err: unknown,
-  req: ExRequest,
+  _req: ExRequest,
   res: ExResponse,
   next: NextFunction
 ): ExResponse | void {
   if (err instanceof ValidateError) {
-    console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
-    return res.status(422).json({
-      message: "Validation Failed",
-      details: err?.fields,
+    let know = err as ValidateError;
+    return res.status(400).json({
+      successo: false,
+      erros: Object.keys(know.fields).map((e) => know.fields[e].message),
     });
-  }
-  if (err instanceof Error) {
+  } else if (err instanceof Error) {
+    console.log(err);
     return res.status(500).json({
-      message: "Internal Server Error",
+      message: "Erro interno do servidor",
     });
   }
 

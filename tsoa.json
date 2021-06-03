@@ -9,6 +9,7 @@
   },
   "routes": {
     "routesDir": "build",
-    "basePath": "/api/v1"
+    "basePath": "/api/v1",
+    "iocModule": "src/ioc"
   }
 }
