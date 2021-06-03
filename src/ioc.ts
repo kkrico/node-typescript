@@ -1,7 +1,7 @@
 import { Container, decorate, injectable } from "inversify";
 import { buildProviderModule } from "inversify-binding-decorators";
 import { Controller } from "tsoa";
-import { UsuarioServico } from "./users/usuarioServico";
+import { UsuarioServico } from "./usuario/usuarioServico";
 
 // Create a new container tsoa can use
 const iocContainer = new Container();
