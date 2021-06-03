@@ -18,11 +18,17 @@ app.use(
 );
 app.use(express.json());
 
-app.use("/docs", swaggerUi.serve, async (_req: ExRequest, res: ExResponse) => {
-  return res.send(
-    swaggerUi.generateHTML(await import("../build/swagger.json"))
+if (process.env.AMBIENTE === "desenvolvimento") {
+  app.use(
+    "/docs",
+    swaggerUi.serve,
+    async (_req: ExRequest, res: ExResponse) => {
+      return res.send(
+        swaggerUi.generateHTML(await import("../build/swagger.json"))
+      );
+    }
   );
-});
+}
 
 RegisterRoutes(app);
 
