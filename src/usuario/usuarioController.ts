@@ -3,12 +3,7 @@ import { Usuario } from "./usuario";
 import { Singleton } from "../util/singleton";
 import { ParametrosCriacaoUsuario, UsuarioServico } from "./usuarioServico";
 import { inject } from "inversify";
-import {
-  RespostaApiComErro,
-  // RespostaApiComErro,
-  RespostaApiSucesso,
-  respostaSucesso,
-} from "../appModel";
+import { RespostaApiComErro, RespostaApiSucesso, sucesso } from "../appModel";
 
 @Route("usuario")
 @Singleton(UsuarioController)
@@ -17,10 +12,10 @@ export class UsuarioController {
 
   @Get("{userId}")
   public async obterUsuario(
-    @Path() userId: number,
+    @Path("userId") idUsuario: number,
     @Query() name?: string
   ): Promise<RespostaApiSucesso<Usuario>> {
-    return this.usuarioServico.obter(userId, name);
+    return this.usuarioServico.obter(idUsuario, name);
   }
 
   @Post()
@@ -30,16 +25,6 @@ export class UsuarioController {
   ): Promise<RespostaApiSucesso<Usuario>> {
     this.usuarioServico.criar(request);
 
-    return respostaSucesso();
+    return sucesso();
   }
-
-  // @Get("teste/{_userId}")
-  // public async responseExamples(
-  //   @Path() _userId: number
-  // ): Promise<RespostaApiSucesso> {
-  //   return {
-  //     sucesso: true,
-  //     data: null,
-  //   };
-  // }
 }

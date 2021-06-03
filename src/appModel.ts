@@ -8,7 +8,7 @@ export type RespostaApiComErro = {
 };
 
 type Callback<T> = () => T;
-export function respostaSucesso<T>(
+export function sucesso<T>(
   parametro: Callback<T> | T | any | null = null
 ): RespostaApiSucesso<T> {
   let result;
