@@ -11,7 +11,10 @@
     "start": "node build/src/server.js"
   },
   "dependencies": {
+    "class-transformer": "^0.4.0",
+    "class-validator": "^0.13.1",
     "dotenv": "^10.0.0",
+    "es6-shim": "^0.35.6",
     "express": "^4.17.1",
     "inversify": "^5.1.1",
     "inversify-binding-decorators": "^4.0.0",
