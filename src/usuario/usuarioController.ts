@@ -23,7 +23,6 @@ export class UsuarioController {
     @Body() request: ParametrosCriacaoUsuario,
     @Res() _res: TsoaResponse<400, RespostaApiComErro>
   ): Promise<RespostaApiSucesso<Usuario>> {
-    console.log("Testando debug");
     return this.usuarioServico.criar(request);
   }
 }
