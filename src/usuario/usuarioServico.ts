@@ -11,6 +11,12 @@ export type ParametrosCriacaoUsuario = Pick<
 
 @injectable()
 export class UsuarioServico {
+  /**
+   * Pesquisa um usuário por id
+   * @param id Identificador do usuário
+   * @param nome Nome do usuário
+   * @returns Resposta no padrão da Api com usuario
+   */
   public obter(id: number, nome?: string): RespostaApiSucesso<Usuario> {
     return sucesso({
       id,
@@ -21,6 +27,11 @@ export class UsuarioServico {
     });
   }
 
+  /**
+   *
+   * @param parametrosCriacaoUsuario Parametros para criação de um usuário
+   * @returns Usuário criado
+   */
   public criar(
     parametrosCriacaoUsuario: ParametrosCriacaoUsuario
   ): RespostaApiSucesso<Usuario> {
