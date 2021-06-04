@@ -6,3 +6,9 @@ export const Singleton = function <T>(
 ) {
   return fluentProvide(identifier).inSingletonScope().done();
 };
+
+export const Transient = function <T>(
+  identifier: interfaces.ServiceIdentifier<T>
+) {
+  return fluentProvide(identifier).inTransientScope().done();
+};
