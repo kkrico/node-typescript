@@ -1,4 +1,6 @@
 // src/app.ts
+import "reflect-metadata";
+import "es6-shim";
 import { RegisterRoutes } from "../build/routes";
 import express, {
   Response as ExResponse,
@@ -55,7 +57,8 @@ app.use(function errorHandler(
   } else if (err instanceof Error) {
     console.log(err);
     return res.status(500).json({
-      message: "Erro interno do servidor",
+      sucesso: false,
+      erro: "Erro interno do servidor",
     });
   }
 

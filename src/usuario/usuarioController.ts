@@ -1,9 +1,9 @@
 import { Body, Get, Path, Post, Query, Route, Res, TsoaResponse } from "tsoa";
-import { Usuario } from "./usuario";
+import { Usuario, ParametrosCriacaoUsuario } from "./usuario";
 import { Singleton } from "../app/ioc/scopes";
-import { ParametrosCriacaoUsuario, UsuarioServico } from "./usuarioServico";
+import { UsuarioServico } from "./usuarioServico";
 import { inject } from "inversify";
-import { RespostaApiErro, RespostaApiSucesso } from "../app/model";
+import { RespostaApiErro, RespostaApiSucesso, validar } from "../app/model";
 
 @Route("usuario")
 @Singleton(UsuarioController)
@@ -23,6 +23,7 @@ export class UsuarioController {
     @Body() request: ParametrosCriacaoUsuario,
     @Res() _res: TsoaResponse<400, RespostaApiErro>
   ): Promise<RespostaApiSucesso<Usuario>> {
+    await validar(ParametrosCriacaoUsuario, request);
     return this.usuarioServico.criar(request);
   }
 }

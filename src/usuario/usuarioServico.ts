@@ -1,13 +1,7 @@
 // src/users/usersService.ts
 import { injectable } from "inversify";
 import { RespostaApiSucesso, sucesso } from "../app/model";
-import { Usuario } from "./usuario";
-
-// A post request should not contain an id.
-export type ParametrosCriacaoUsuario = Pick<
-  Usuario,
-  "email" | "name" | "phoneNumbers"
->;
+import { Usuario, ParametrosCriacaoUsuario } from "./usuario";
 
 @injectable()
 export class UsuarioServico {
