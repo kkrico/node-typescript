@@ -1,11 +1,12 @@
-type RespostaComSucesso<TData> = { sucesso: boolean; data: TData };
-export type RespostaApiSucesso<T = { sucesso: true; data: null }> =
-  RespostaComSucesso<T>;
+export class RespostaApiSucesso<T = null> {
+  sucesso = true;
+  data: T | null = null;
+}
 
-export type RespostaApiComErro = {
-  sucesso: false;
-  erros: string[];
-};
+export class RespostaApiErro {
+  sucesso = false;
+  erros = [] as string[];
+}
 
 type Callback<T> = () => T;
 export function sucesso<T>(
@@ -24,3 +25,13 @@ export function sucesso<T>(
     data: result,
   };
 }
+
+class Exemplo {
+  mensagemDeValidacao = "Erro de Validação";
+  retornoValidacao = {
+    sucesso: false,
+    erros: "Erro de exemplo",
+  };
+}
+
+export const exemplo = new Exemplo();

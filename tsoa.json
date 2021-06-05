@@ -10,7 +10,6 @@
   "routes": {
     "routesDir": "build",
     "basePath": "/api/v1",
-    "iocModule": "src/app/ioc",
-    "middlewareTemplate": "src/app/template/template-portugues-pt-br.ts.hbs"
+    "iocModule": "src/app/ioc"
   }
 }

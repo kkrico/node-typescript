@@ -48,7 +48,9 @@ app.use(function errorHandler(
     let know = err as ValidateError;
     return res.status(400).json({
       successo: false,
-      erros: Object.keys(know.fields).map((e) => know.fields[e].message),
+      erros: Object.keys(know.fields).map((e) =>
+        know.fields[e].message.replace("is required", "é obrigatório")
+      ),
     });
   } else if (err instanceof Error) {
     console.log(err);
