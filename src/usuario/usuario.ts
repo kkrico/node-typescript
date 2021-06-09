@@ -17,4 +17,5 @@ export class ParametrosCriacaoUsuario {
   })
   email: string;
   name: string;
+  phoneNumbers: string[];
 }

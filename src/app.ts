@@ -22,7 +22,7 @@ app.use(express.json());
 
 if (process.env.AMBIENTE === "desenvolvimento") {
   app.use(
-    "/docs",
+    "/swagger",
     swaggerUi.serve,
     async (_req: ExRequest, res: ExResponse) => {
       return res.send(

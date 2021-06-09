@@ -1,6 +1,5 @@
 // src/users/usersService.ts
 import { injectable } from "inversify";
-import { RespostaApiSucesso, sucesso } from "../app/model";
 import { Usuario, ParametrosCriacaoUsuario } from "./usuario";
 
 @injectable()
@@ -11,14 +10,14 @@ export class UsuarioServico {
    * @param nome Nome do usuário
    * @returns Resposta no padrão da Api com usuario
    */
-  public obter(id: number, nome?: string): RespostaApiSucesso<Usuario> {
-    return sucesso({
+  public obter(id: number, nome?: string): Usuario {
+    return {
       id,
       email: "jane@doe.com",
       name: nome ?? "Jane Doe",
       status: "Happy",
       phoneNumbers: [],
-    });
+    };
   }
 
   /**
@@ -26,13 +25,11 @@ export class UsuarioServico {
    * @param parametrosCriacaoUsuario Parametros para criação de um usuário
    * @returns Usuário criado
    */
-  public criar(
-    parametrosCriacaoUsuario: ParametrosCriacaoUsuario
-  ): RespostaApiSucesso<Usuario> {
-    return sucesso({
+  public criar(parametrosCriacaoUsuario: ParametrosCriacaoUsuario): Usuario {
+    return {
       id: Math.floor(Math.random() * 10000), // Random
       status: "Happy",
       ...parametrosCriacaoUsuario,
-    });
+    };
   }
 }

@@ -5,10 +5,7 @@ import { UsuarioServico } from "../../usuario/usuarioServico";
 
 // Create a new container tsoa can use
 const iocContainer = new Container();
-iocContainer
-  .bind<UsuarioServico>(UsuarioServico)
-  .to(UsuarioServico)
-  .inSingletonScope();
+iocContainer.bind<UsuarioServico>(UsuarioServico).toSelf().inSingletonScope();
 
 decorate(injectable(), Controller); // Makes tsoa's Controller injectable
 

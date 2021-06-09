@@ -3,7 +3,12 @@ import { Usuario, ParametrosCriacaoUsuario } from "./usuario";
 import { Singleton } from "../app/ioc/scopes";
 import { UsuarioServico } from "./usuarioServico";
 import { inject } from "inversify";
-import { RespostaApiErro, RespostaApiSucesso, validar } from "../app/model";
+import {
+  RespostaApiErro,
+  RespostaApiSucesso,
+  sucesso,
+  validar,
+} from "../app/model";
 
 @Route("usuario")
 @Singleton(UsuarioController)
@@ -15,7 +20,7 @@ export class UsuarioController {
     @Path("userId") idUsuario: number,
     @Query() name?: string
   ): Promise<RespostaApiSucesso<Usuario>> {
-    return this.usuarioServico.obter(idUsuario, name);
+    return sucesso(this.usuarioServico.obter(idUsuario, name));
   }
 
   @Post()
@@ -24,6 +29,6 @@ export class UsuarioController {
     @Res() _res: TsoaResponse<400, RespostaApiErro>
   ): Promise<RespostaApiSucesso<Usuario>> {
     await validar(ParametrosCriacaoUsuario, request);
-    return this.usuarioServico.criar(request);
+    return sucesso(this.usuarioServico.criar(request));
   }
 }
