@@ -1,34 +1,34 @@
-import { Body, Get, Path, Post, Query, Route, Res, TsoaResponse } from "tsoa";
-import { Usuario, ParametrosCriacaoUsuario } from "./usuario";
+import { Body, Get, Post, Route, Res, TsoaResponse } from "tsoa";
+import { Usuario, RegistroUsuarioRequest, EmployeeDTO } from "./usuarioModelos";
 import { UsuarioServico } from "./usuarioServico";
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
 import {
   RespostaApiErro,
   RespostaApiSucesso,
   sucesso,
   validar,
-} from "../app/model";
-import { Employee } from "../app/database/entidades/Employee";
+} from "../app/modelo";
+import { Singleton } from "../app/ioc/scopes";
 
 @Route("usuario")
-@injectable()
+@Singleton(UsuarioController)
 export class UsuarioController {
   constructor(@inject(UsuarioServico) private usuarioServico: UsuarioServico) {}
 
-  @Get("{userId}")
-  public async obterUsuario(
-    @Path("userId") idUsuario: number,
-    @Query() name?: string
-  ): Promise<RespostaApiSucesso<Employee>> {
-    return sucesso(await this.usuarioServico.obter(idUsuario, name));
+  /**
+   * Lista todos os usuários registrados. Entende que usuário = employee
+   */
+  @Get()
+  public async obterUsuario(): Promise<RespostaApiSucesso<EmployeeDTO[]>> {
+    return sucesso(await this.usuarioServico.listar());
   }
 
   @Post()
   public async criarUsuario(
-    @Body() request: ParametrosCriacaoUsuario,
+    @Body() request: RegistroUsuarioRequest,
     @Res() _res: TsoaResponse<400, RespostaApiErro>
   ): Promise<RespostaApiSucesso<Usuario>> {
-    await validar(ParametrosCriacaoUsuario, request);
+    await validar(RegistroUsuarioRequest, request);
     return sucesso(this.usuarioServico.criar(request));
   }
 }

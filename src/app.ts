@@ -20,7 +20,7 @@ app.use(
 );
 app.use(express.json());
 
-if (process.env.AMBIENTE === "desenvolvimento") {
+if (process.env.NODE_ENV === "development") {
   app.use(
     "/swagger",
     swaggerUi.serve,

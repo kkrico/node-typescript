@@ -1,39 +1,34 @@
 // src/users/usersService.ts
-import { inject, injectable } from "inversify";
+import { inject } from "inversify";
+import { Transient } from "../app/ioc/scopes";
 import { GerenciadorConexao } from "../app/database";
 import { Employee } from "../app/database/entidades/Employee";
-import { Usuario, ParametrosCriacaoUsuario } from "./usuario";
+import { Usuario, RegistroUsuarioRequest, EmployeeDTO } from "./usuarioModelos";
+import { BaseServico } from "../app/servico/BaseServico";
+import { plainToClass } from "class-transformer";
 
-@injectable()
-export class UsuarioServico {
+@Transient(UsuarioServico)
+export class UsuarioServico extends BaseServico {
   constructor(
-    @inject(GerenciadorConexao) private gerenciadorConexao: GerenciadorConexao
-  ) {}
+    @inject(GerenciadorConexao) gerenciadorConexao: GerenciadorConexao
+  ) {
+    super(gerenciadorConexao);
+  }
   /**
    * Pesquisa um usuário por id
    * @param _id Identificador do usuário
    * @param _nome Nome do usuário
    * @returns Resposta no padrão da Api com usuario
    */
-  public async obter(
-    _id: number,
-    _nome?: string
-  ): Promise<Employee | undefined> {
-    let conn = await this.gerenciadorConexao.obterConexao();
-    const employeeRepo = conn.getRepository(Employee);
+  public async listar(): Promise<EmployeeDTO[] | undefined> {
+    const employeeRepo = await this.obterRepositorio(Employee);
+    const con = await this.obterConexao();
 
-    const employee = await employeeRepo.findOne();
+    const adresses = await con.query("SELECT * FROM adventureworks.address;");
+    console.log(adresses);
+    const employee = await employeeRepo.find();
 
-    console.log(employee);
-
-    return employee;
-    // return {
-    //   id,
-    //   email: "jane@doe.com",
-    //   name: nome ?? "Jane Doe",
-    //   status: "Happy",
-    //   phoneNumbers: [],
-    // };
+    return plainToClass(EmployeeDTO, employee as Object[]);
   }
 
   /**
@@ -41,7 +36,7 @@ export class UsuarioServico {
    * @param parametrosCriacaoUsuario Parametros para criação de um usuário
    * @returns Usuário criado
    */
-  public criar(parametrosCriacaoUsuario: ParametrosCriacaoUsuario): Usuario {
+  public criar(parametrosCriacaoUsuario: RegistroUsuarioRequest): Usuario {
     return {
       id: Math.floor(Math.random() * 10000), // Random
       status: "Happy",
