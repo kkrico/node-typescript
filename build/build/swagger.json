@@ -1,0 +1,208 @@
+{
+    "components": {
+        "examples": {},
+        "headers": {},
+        "parameters": {},
+        "requestBodies": {},
+        "responses": {},
+        "schemas": {
+            "Usuario": {
+                "properties": {
+                    "id": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "Happy",
+                            "Sad"
+                        ]
+                    },
+                    "phoneNumbers": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "id",
+                    "email",
+                    "name",
+                    "phoneNumbers"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "RespostaComSucesso_Usuario_": {
+                "properties": {
+                    "data": {
+                        "$ref": "#/components/schemas/Usuario"
+                    },
+                    "sucesso": {
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "data",
+                    "sucesso"
+                ],
+                "type": "object"
+            },
+            "RespostaApiSucesso_Usuario_": {
+                "$ref": "#/components/schemas/RespostaComSucesso_Usuario_"
+            },
+            "Pick_Usuario.email-or-name-or-phoneNumbers_": {
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "phoneNumbers": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    }
+                },
+                "required": [
+                    "email",
+                    "name",
+                    "phoneNumbers"
+                ],
+                "type": "object",
+                "description": "From T, pick a set of properties whose keys are in the union K"
+            },
+            "ParametrosCriacaoUsuario": {
+                "$ref": "#/components/schemas/Pick_Usuario.email-or-name-or-phoneNumbers_"
+            },
+            "RespostaApiComErro": {
+                "properties": {
+                    "erros": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array"
+                    },
+                    "sucesso": {
+                        "type": "boolean",
+                        "enum": [
+                            "false"
+                        ],
+                        "nullable": false
+                    }
+                },
+                "required": [
+                    "erros",
+                    "sucesso"
+                ],
+                "type": "object"
+            }
+        },
+        "securitySchemes": {}
+    },
+    "info": {
+        "title": "node-typescript",
+        "version": "1.0.0",
+        "license": {
+            "name": "MIT"
+        },
+        "contact": {
+            "name": "Daniel Ramos ",
+            "email": "daniel.framos@cassi.com.br"
+        }
+    },
+    "openapi": "3.0.0",
+    "paths": {
+        "/usuario/{userId}": {
+            "get": {
+                "operationId": "ObterUsuario",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RespostaApiSucesso_Usuario_"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "userId",
+                        "required": true,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/usuario": {
+            "post": {
+                "operationId": "CriarUsuario",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RespostaApiSucesso_Usuario_"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RespostaApiComErro"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ParametrosCriacaoUsuario"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "/api/v1"
+        }
+    ]
+}
