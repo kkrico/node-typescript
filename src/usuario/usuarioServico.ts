@@ -1,5 +1,7 @@
 // src/users/usersService.ts
 import { injectable } from "inversify";
+import gerarConexao from "../app/database";
+import { Employee } from "../app/database/entidades/Employee";
 import { Usuario, ParametrosCriacaoUsuario } from "./usuario";
 
 @injectable()
@@ -10,7 +12,13 @@ export class UsuarioServico {
    * @param nome Nome do usuário
    * @returns Resposta no padrão da Api com usuario
    */
-  public obter(id: number, nome?: string): Usuario {
+  public async obter(id: number, nome?: string): Promise<Usuario> {
+    let connection = await gerarConexao();
+    const employeeRepo = connection.getRepository(Employee);
+
+    const employee = await employeeRepo.findOne();
+
+    console.log(employee);
     return {
       id,
       email: "jane@doe.com",
