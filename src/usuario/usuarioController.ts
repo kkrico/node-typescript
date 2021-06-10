@@ -1,17 +1,17 @@
 import { Body, Get, Path, Post, Query, Route, Res, TsoaResponse } from "tsoa";
 import { Usuario, ParametrosCriacaoUsuario } from "./usuario";
-import { Singleton } from "../app/ioc/scopes";
 import { UsuarioServico } from "./usuarioServico";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 import {
   RespostaApiErro,
   RespostaApiSucesso,
   sucesso,
   validar,
 } from "../app/model";
+import { Employee } from "../app/database/entidades/Employee";
 
 @Route("usuario")
-@Singleton(UsuarioController)
+@injectable()
 export class UsuarioController {
   constructor(@inject(UsuarioServico) private usuarioServico: UsuarioServico) {}
 
@@ -19,8 +19,8 @@ export class UsuarioController {
   public async obterUsuario(
     @Path("userId") idUsuario: number,
     @Query() name?: string
-  ): Promise<RespostaApiSucesso<Usuario>> {
-    return sucesso(this.usuarioServico.obter(idUsuario, name));
+  ): Promise<RespostaApiSucesso<Employee>> {
+    return sucesso(await this.usuarioServico.obter(idUsuario, name));
   }
 
   @Post()

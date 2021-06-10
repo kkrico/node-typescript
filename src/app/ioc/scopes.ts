@@ -10,5 +10,5 @@ export const Singleton = function <T>(
 export const Transient = function <T>(
   identifier: interfaces.ServiceIdentifier<T>
 ) {
-  return fluentProvide(identifier).inTransientScope().done();
+  return fluentProvide(identifier).inSingletonScope().done();
 };

@@ -1,31 +1,39 @@
 // src/users/usersService.ts
-import { injectable } from "inversify";
-import gerarConexao from "../app/database";
+import { inject, injectable } from "inversify";
+import { GerenciadorConexao } from "../app/database";
 import { Employee } from "../app/database/entidades/Employee";
 import { Usuario, ParametrosCriacaoUsuario } from "./usuario";
 
 @injectable()
 export class UsuarioServico {
+  constructor(
+    @inject(GerenciadorConexao) private gerenciadorConexao: GerenciadorConexao
+  ) {}
   /**
    * Pesquisa um usuário por id
-   * @param id Identificador do usuário
-   * @param nome Nome do usuário
+   * @param _id Identificador do usuário
+   * @param _nome Nome do usuário
    * @returns Resposta no padrão da Api com usuario
    */
-  public async obter(id: number, nome?: string): Promise<Usuario> {
-    let connection = await gerarConexao();
-    const employeeRepo = connection.getRepository(Employee);
+  public async obter(
+    _id: number,
+    _nome?: string
+  ): Promise<Employee | undefined> {
+    let conn = await this.gerenciadorConexao.obterConexao();
+    const employeeRepo = conn.getRepository(Employee);
 
     const employee = await employeeRepo.findOne();
 
     console.log(employee);
-    return {
-      id,
-      email: "jane@doe.com",
-      name: nome ?? "Jane Doe",
-      status: "Happy",
-      phoneNumbers: [],
-    };
+
+    return employee;
+    // return {
+    //   id,
+    //   email: "jane@doe.com",
+    //   name: nome ?? "Jane Doe",
+    //   status: "Happy",
+    //   phoneNumbers: [],
+    // };
   }
 
   /**
