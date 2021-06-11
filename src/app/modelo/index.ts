@@ -7,9 +7,43 @@ export class RespostaApiSucesso<T = null> {
   data: T | null = null;
 }
 
-export class RespostaApiErro {
+export const PadraoResposta = {
+  codigo: {
+    erro: 400,
+    sucesso: 200,
+    semacesso: 403,
+    errointerno: 500,
+  },
+  mensagem: {
+    erro: "A requisição falhou na validação negocial",
+    sucesso: "Sucesso",
+    semacesso: "A requisição falhou por falta de permissão e/ou token inválido",
+    errointerno: "Erro interno do servidor",
+  },
+};
+
+export class RespostaApiErroNegocial {
+  public constructor(erros: string[]) {
+    this.erros = erros;
+  }
   sucesso = false;
   erros = [] as string[];
+}
+
+export class RespostaApiErroSemAcesso {
+  public constructor(erro: string) {
+    this.erro = erro;
+  }
+  sucesso = false;
+  erro: string;
+}
+
+export class RespostaApiErroInterno {
+  public constructor(erro: string) {
+    this.erro = erro;
+  }
+  sucesso = false;
+  erro: string;
 }
 
 type Callback<T> = () => T;

@@ -9,6 +9,8 @@ import express, {
 } from "express";
 import swaggerUi from "swagger-ui-express";
 import { ValidateError } from "tsoa";
+import { AutorizacaoErro as AcessoErro } from "./app/autenticacao/AutorizacaoErro";
+import { RespostaApiErroNegocial, RespostaApiErroInterno } from "./app/modelo";
 
 export const app = express();
 
@@ -36,7 +38,8 @@ RegisterRoutes(app);
 
 app.use(function notFoundHandler(_req, res: ExResponse) {
   res.status(404).send({
-    message: "Not Found",
+    sucesso: false,
+    erros: ["Not Found"],
   });
 });
 
@@ -48,18 +51,26 @@ app.use(function errorHandler(
 ): ExResponse | void {
   if (err instanceof ValidateError) {
     let know = err as ValidateError;
-    return res.status(400).json({
-      successo: false,
-      erros: Object.keys(know.fields).map((e) =>
-        know.fields[e].message.replace("is required", "é obrigatório")
-      ),
-    });
+    return res
+      .status(400)
+      .json(
+        new RespostaApiErroNegocial(
+          Object.keys(know.fields).map((e) =>
+            know.fields[e].message.replace("is required", "é obrigatório")
+          )
+        )
+      );
+  } else if (err instanceof AcessoErro) {
+    return res.status(403).json(new RespostaApiErroInterno(err.message));
   } else if (err instanceof Error) {
     console.log(err);
-    return res.status(500).json({
-      sucesso: false,
-      erro: "Erro interno do servidor",
-    });
+    return res
+      .status(500)
+      .json(
+        new RespostaApiErroInterno(
+          "Erro interno no servidor. Tente novamente mais tarde"
+        )
+      );
   }
 
   next();
