@@ -15,12 +15,7 @@ export class UsuarioServico extends BaseServico {
   ) {
     super(gerenciadorConexao);
   }
-  /**
-   * Pesquisa um usuário por id
-   * @param _id Identificador do usuário
-   * @param _nome Nome do usuário
-   * @returns Resposta no padrão da Api com usuario
-   */
+
   public async listar(): Promise<EmployeeDTO[] | undefined> {
     const employeeRepo = await this.obterRepositorio(Employee);
     const con = await this.obterConexao();
