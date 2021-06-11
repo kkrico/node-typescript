@@ -5,7 +5,6 @@ import {
   RespostaApiErroNegocial,
   RespostaApiErroSemAcesso,
   RespostaApiSucesso,
-  validar,
   sucesso,
 } from "../app/modelo";
 import { Usuario, RegistroUsuarioRequest, EmployeeDTO } from "./usuarioModelos";
@@ -46,7 +45,6 @@ export class UsuarioController {
   public async criarUsuario(
     @Body() request: RegistroUsuarioRequest
   ): Promise<RespostaApiSucesso<Usuario>> {
-    await validar(RegistroUsuarioRequest, request);
-    return sucesso(this.usuarioServico.criar(request));
+    return sucesso(await this.usuarioServico.criar(request));
   }
 }

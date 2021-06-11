@@ -6,6 +6,7 @@ import { Employee } from "../app/database/entidades/Employee";
 import { Usuario, RegistroUsuarioRequest, EmployeeDTO } from "./usuarioModelos";
 import { BaseServico } from "../app/servico/BaseServico";
 import { plainToClass } from "class-transformer";
+import { validar } from "../app/modelo";
 
 @Transient(UsuarioServico)
 export class UsuarioServico extends BaseServico {
@@ -36,7 +37,11 @@ export class UsuarioServico extends BaseServico {
    * @param parametrosCriacaoUsuario Parametros para criação de um usuário
    * @returns Usuário criado
    */
-  public criar(parametrosCriacaoUsuario: RegistroUsuarioRequest): Usuario {
+  public async criar(
+    parametrosCriacaoUsuario: RegistroUsuarioRequest
+  ): Promise<Usuario> {
+    await validar(RegistroUsuarioRequest, parametrosCriacaoUsuario);
+
     return {
       id: Math.floor(Math.random() * 10000), // Random
       status: "Happy",
