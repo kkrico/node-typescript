@@ -8,12 +8,6 @@ export class RespostaApiSucesso<T = null> {
 }
 
 export const PadraoResposta = {
-  codigo: {
-    erro: 400,
-    sucesso: 200,
-    semacesso: 403,
-    errointerno: 500,
-  },
   mensagem: {
     erro: "A requisição falhou na validação negocial",
     sucesso: "Sucesso",
