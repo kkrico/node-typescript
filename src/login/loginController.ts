@@ -10,10 +10,14 @@ import {
 } from "../app/modelo";
 import { Singleton } from "../app/ioc/scopes";
 import { LoginDTO, LoginRequest } from "./loginModels";
+import { AutenticacaoContexto } from "../app/autenticacao/autenticacaoContexto";
 
 @Route("login")
 @Singleton(LoginController)
 export class LoginController extends Controller {
+  constructor(private loginContext: AutenticacaoContexto) {
+    super();
+  }
   /**
    * Permite que um usuário faça login. Neste exemplo, somente é válido o login demo com senha demo
    * @param request Request com login e senha
@@ -30,7 +34,7 @@ export class LoginController extends Controller {
     if (request.login === "demo" && request.senha === "demo") {
       let token = jwt.sign(
         { username: request.login },
-        process.env.JWT_SECRET as string,
+        this.loginContext.jwtSecret,
         {
           expiresIn: "24h", // expires in 24 hours
         }

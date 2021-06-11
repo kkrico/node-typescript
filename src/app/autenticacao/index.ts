@@ -1,7 +1,9 @@
 import * as express from "express";
 import * as jwt from "jsonwebtoken";
 import { AutorizacaoErro } from "./AutorizacaoErro";
+import { AutenticacaoContexto } from "./autenticacaoContexto";
 
+const contexto = new AutenticacaoContexto();
 export function expressAuthentication(
   request: express.Request,
   _securityName: string,
@@ -22,31 +24,27 @@ export function expressAuthentication(
     if (!token) {
       reject(tokenInvalido());
     }
-    jwt.verify(
-      token,
-      process.env.JWT_SECRET as string,
-      function (err: any, decoded: any) {
-        if (err) {
-          reject(tokenInvalido());
-        } else {
-          let temScopesNaController =
-            typeof scopes != "undefined" && scopes.length > 0;
-          if (!temScopesNaController) return resolve(decoded);
+    jwt.verify(token, contexto.jwtSecret, function (err: any, decoded: any) {
+      if (err) {
+        reject(tokenInvalido());
+      } else {
+        let temScopesNaController =
+          typeof scopes != "undefined" && scopes.length > 0;
+        if (!temScopesNaController) return resolve(decoded);
 
-          let temScopeNoToken = typeof decoded.scopes !== "undefined";
-          if (temScopeNoToken && temScopesNaController) {
-            for (let scope of scopes!) {
-              if (!decoded.scopes.includes(scope)) {
-                reject(voceNaoTemAcesso());
-              }
+        let temScopeNoToken = typeof decoded.scopes !== "undefined";
+        if (temScopeNoToken && temScopesNaController) {
+          for (let scope of scopes!) {
+            if (!decoded.scopes.includes(scope)) {
+              reject(voceNaoTemAcesso());
             }
-            resolve(decoded);
-          } else {
-            reject(voceNaoTemAcesso());
           }
+          resolve(decoded);
+        } else {
+          reject(voceNaoTemAcesso());
         }
       }
-    );
+    });
   });
 }
 
